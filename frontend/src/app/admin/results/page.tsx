@@ -74,7 +74,7 @@ export default function ResultsPage() {
                   <td className="px-4 py-3"><p className="text-sm font-medium">{c.name}</p><p className="text-xs text-gray-400">{c.email}</p></td>
                   <td className="px-4 py-3 text-sm text-gray-600">{c.finishedAt ? new Date(c.finishedAt).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"}) : "—"}</td>
                   <td className="px-4 py-3 text-sm font-semibold">{c.score!=null?`${c.score}/60`:"—"}</td>
-                  <td className="px-4 py-3 text-sm font-bold text-brand-600">{c.iq???"—"}</td>
+                  <td className="px-4 py-3 text-sm font-bold text-brand-600">{c.iq??"—"}</td>
                   <td className="px-4 py-3 text-xs text-gray-600">{c.iqClassification??"—"}</td>
                   <td className="px-4 py-3"><span className={`text-xs font-medium px-2 py-1 rounded-full ${STATUS_COLOR[c.status]}`}>{STATUS_LABEL[c.status]}</span></td>
                 </tr>
