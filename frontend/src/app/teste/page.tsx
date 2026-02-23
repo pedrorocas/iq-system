@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 
@@ -9,7 +9,7 @@ interface Question {
 }
 type Step = "login"|"test"|"confirm"|"done"|"error"|"already_done";
 
-export default function TestPage() {
+function TestPageContent() {
   const params = useSearchParams();
   const accessToken = params.get("token") || "";
   const [step, setStep] = useState<Step>("login");
@@ -145,4 +145,12 @@ export default function TestPage() {
 
 function Screen({children}:{children:React.ReactNode}) {
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-900 to-brand-600 px-4"><div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">{children}</div></div>;
+}
+
+export default function TestPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Carregando...</p></div>}>
+      <TestPageContent />
+    </Suspense>
+  );
 }
