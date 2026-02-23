@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Candidate {
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  accessToken String       @unique @default(cuid())
+  tokenUsed   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  session     TestSession?
+}
+
+model TestSession {
+  id          String    @id @default(cuid())
+  candidateId String    @unique
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  startedAt   DateTime  @default(now())
+  finishedAt  DateTime?
+  score       Int?
+  iq          Int?
+}
+
+model Question {
+  id            Int      @id @default(autoincrement())
+  statement     String
+  imageUrl      String?  // URL da imagem no Supabase Storage (opcional)
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  optionE       String
+  correctAnswer String   // "A", "B", "C", "D" ou "E"
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+}
